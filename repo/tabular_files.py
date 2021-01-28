@@ -1,6 +1,5 @@
 import csv
 from os import listdir
-from os.path import isfile
 
 def import_call_schedule_data(directory):
     """
@@ -9,7 +8,7 @@ def import_call_schedule_data(directory):
         Parameters
         ----------
         directory: str
-            directory containing call schedule tab delimited files
+            single unnested directory containing call schedule tab delimited files
 
         Returns
         -------
@@ -19,7 +18,6 @@ def import_call_schedule_data(directory):
         Raises
         ------
     """
-    data_file_names = [f for f in listdir(directory) if isfile(f) 
-    and f[0:14] == "FFIEC CDR Call Subset"]
+    data_file_names = [f for f in listdir(directory) if f[0:21] == "FFIEC CDR Call Subset"]
 
     return data_file_names
