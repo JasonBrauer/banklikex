@@ -14,7 +14,7 @@ class TestGroupedFilesByYear(unittest.TestCase):
         Test the successful use of grouped files by year
         """
 
-        from repo.tabular_files import _grouped_files_by_year
+        from repo.tabular_files import _group_files_by_year
 
         test_file_list = [
             "FFIEC CDR Call Subset of Schedules 2020(1 of 2)",
@@ -34,6 +34,6 @@ class TestGroupedFilesByYear(unittest.TestCase):
             ]
         ]
 
-        grouped_output = _grouped_files_by_year(test_file_list)
+        grouped_output = _group_files_by_year(test_file_list)
 
-        self.assert_equal(grouped_output, expected_output)
+        self.assertEqual(grouped_output, expected_output)
