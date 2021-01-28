@@ -1,7 +1,7 @@
 import csv
 from os import listdir
 
-from entities.data_models import call_data_import_list, call_data_identifier_dict
+from entities.data_models import call_data_import_list, call_data_identifier_dict, CallData
 
 def import_call_schedule_data(directory):
     """
@@ -85,14 +85,29 @@ def _call_data_objects_from_file_group(file_group, directory):
             call_data_reader = csv.reader(call_data_file, delimiter="\t")
             row_num = 0
             for row in call_data_reader:
+                call_data_object = CallData()
                 if row_num == 0:
                     header = row
-                    header_index_dict = _create_header_index_dictionary(header)
-                '''
-                    collect each call data identifier if in first file
-                '''
-                for key in header_index_dict:
-                    row[header_index_dict[key]]
+                    id_header_index_dict = _create_id_header_index_dictionary(header)
+                    field_header_index_dict = _create_field_header_index_dictionary(header)
+                else:
+                    '''
+                        collect each call data identifier if in first file
+                    '''
+                    if file_num == 0:
+                        for key in id_header_index_dict:
+                            setattr(call_data_object, call_data_identifier_dict[key], 
+                            row[id_header_index_dict[key]])
+
+                    '''
+                        collect required fields
+                    '''
+                    row_field_dict = {}
+                    for key in field_header_index_dict:
+                        row_field_dict[key] = row[id_header_index_dict[key]]
+                    setattr(call_data_object, "field_dict", row_field_dict)
+
+                    call_data_object_list.append(call_data_object)
 
                 row_num += 1
 
@@ -141,7 +156,7 @@ def _create_id_header_index_dictionary(header):
     """
     id_header_index_dict = {}
     for name in header:
-        if name in call_data_identifier_dict.keys:
+        if name in call_data_identifier_dict.keys():
             id_header_index_dict[name] = header.index(name)
 
     return id_header_index_dict
