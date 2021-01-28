@@ -1,7 +1,7 @@
 import csv
 from os import listdir
 
-from entities.data_models import call_data_import_list
+from entities.data_models import call_data_import_list, call_data_identifier_dict
 
 def import_call_schedule_data(directory):
     """
@@ -87,12 +87,20 @@ def _call_data_objects_from_file_group(file_group, directory):
             for row in call_data_reader:
                 if row_num == 0:
                     header = row
+                    header_index_dict = _create_header_index_dictionary(header)
+                '''
+                    collect each call data identifier if in first file
+                '''
+                for key in header_index_dict:
+                    row[header_index_dict[key]]
+
+                row_num += 1
 
         file_num += 1
 
-def _create_header_index_dictionary(header):
+def _create_field_header_index_dictionary(header):
     """
-    Creates a dictionary of data index number associated with each desired header
+    Creates a dictionary of data index number associated with each desired field header
 
     Parameters
         ----------
@@ -101,16 +109,40 @@ def _create_header_index_dictionary(header):
 
         Returns
         -------
-        header_index_dict: dict
+        field_header_index_dict: dict
             dictionary of header indecies
 
         Raises
         ------
     """
-    header_index_dict = {}
-    for field in header:
-        if field in call_data_import_list:
-            header_index_dict[field] = header.index(field)
+    field_header_index_dict = {}
+    for name in header:
+        if name in call_data_import_list:
+            field_header_index_dict[name] = header.index(name)
 
-    return header_index_dict
+    return field_header_index_dict
+
+def _create_id_header_index_dictionary(header):
+    """
+    Creates a dictionary of data index number associated with each desired identifier header
+
+    Parameters
+        ----------
+        header: list
+            list of headers in call data file
+
+        Returns
+        -------
+        id_header_index_dict: dict
+            dictionary of header indecies
+
+        Raises
+        ------
+    """
+    id_header_index_dict = {}
+    for name in header:
+        if name in call_data_identifier_dict.keys:
+            id_header_index_dict[name] = header.index(name)
+
+    return id_header_index_dict
 
