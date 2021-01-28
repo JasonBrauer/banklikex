@@ -11,6 +11,9 @@ class CallData():
         self.fdic = None
         self.bank_name = None
         self.address = None
+        self.city = None
+        self.state = None
+        self.zip_code = None
         self.field_dict = None
 
     @property
@@ -72,6 +75,36 @@ class CallData():
             self.__address = address
         else:
             raise TypeError("address type must be string or None")
+
+    @property
+    def city(self):
+        return self.__city
+    @city.setter
+    def city(self, city):
+        if type(city) == str or city == None: 
+            self.__city = city
+        else:
+            raise TypeError("city type must be string or None")
+
+    @property
+    def state(self):
+        return self.__state
+    @state.setter
+    def state(self, state):
+        if type(state) == str or state == None: 
+            self.__state = state
+        else:
+            raise TypeError("state type must be string or None")
+
+    @property
+    def zip_code(self):
+        return self.__zip_code
+    @zip_code.setter
+    def zip_code(self, zip_code):
+        if type(zip_code) == str or zip_code == None: 
+            self.__zip_code = zip_code
+        else:
+            raise TypeError("zip_code type must be string or None")
 
     @property
     def field_dict(self):
@@ -148,3 +181,14 @@ call_data_import_list = [
     "TOTAL INTEREST INCOME",
     "TOTAL NONINTEREST INCOME",
 ]
+
+call_data_identifier_dict = {
+    "Reporting Period End Date" : "period",
+    "IDRSSD" : "idrssd",
+    "FDIC Certificate Number" : "fdic",
+    "Financial Institution Name" : "bank_name",
+    "Financial Institution Address" : "address",
+    "Financial Institution City" : "city",
+    "Financial Institution State" : "state",
+    "Financial Institution Zip Code" : "zip_code"
+}
