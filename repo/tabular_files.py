@@ -43,11 +43,14 @@ def _group_files_by_year(file_list):
     previous_year = ""
     subgroup = []
     for file_name in file_list:
-        year = file_name.split(" ")[-1:].split("(")
-        if year != previous_year:
+        year = file_name.split(" ")[-3:][0].split("(")[0]
+        if year != previous_year and bool(subgroup):
             grouped_file_list.append(subgroup)
             subgroup = []
 
         subgroup.append(file_name)
+        previous_year = year
+    else:
+        grouped_file_list.append(subgroup)
 
     return grouped_file_list
