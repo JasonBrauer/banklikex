@@ -136,3 +136,15 @@ class AggregateData():
             self.__intersection_dict = intersection_dict
         else:
             raise TypeError("intersection_dict type must be dict or None")
+
+'''
+    TODO - Add more categories to describe loan types / content
+'''
+
+call_data_import_list = [
+    "TOTAL ASSETS",
+    "TOTAL LIABILITIES",
+    "NET INCOME",
+    "TOTAL INTEREST INCOME",
+    "TOTAL NONINTEREST INCOME",
+]
