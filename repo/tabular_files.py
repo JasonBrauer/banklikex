@@ -1,6 +1,8 @@
 import csv
 from os import listdir
 
+from entities.data_models import call_data_import_list
+
 def import_call_schedule_data(directory):
     """
     Imports data from tab delimited call reports
@@ -55,7 +57,7 @@ def _group_files_by_year(file_list):
 
     return grouped_file_list
 
-def _call_data_objects_from_file_group(file_group):
+def _call_data_objects_from_file_group(file_group, directory):
     """
     Creates call object list from all data in file group
 
@@ -63,6 +65,8 @@ def _call_data_objects_from_file_group(file_group):
         ----------
         file_group: list
             list of file names in same date group
+        directory: str
+            directory of call data files in raw or escaped format
 
         Returns
         -------
@@ -72,4 +76,41 @@ def _call_data_objects_from_file_group(file_group):
         Raises
         ------
     """
-    pass
+    call_data_object_list = []
+
+    file_num = 0
+    for file_name in file_group:
+        file_w_directory = directory + "\\" + file_name
+        with open(file_w_directory, mode='br') as call_data_file:
+            call_data_reader = csv.reader(call_data_file, delimiter="\t")
+            row_num = 0
+            for row in call_data_reader:
+                if row_num == 0:
+                    header = row
+
+        file_num += 1
+
+def _create_header_index_dictionary(header):
+    """
+    Creates a dictionary of data index number associated with each desired header
+
+    Parameters
+        ----------
+        header: list
+            list of headers in call data file
+
+        Returns
+        -------
+        header_index_dict: dict
+            dictionary of header indecies
+
+        Raises
+        ------
+    """
+    header_index_dict = {}
+    for field in header:
+        if field in call_data_import_list:
+            header_index_dict[field] = header.index(field)
+
+    return header_index_dict
+
