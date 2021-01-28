@@ -54,3 +54,22 @@ def _group_files_by_year(file_list):
         grouped_file_list.append(subgroup)
 
     return grouped_file_list
+
+def _call_data_objects_from_file_group(file_group):
+    """
+    Creates call object list from all data in file group
+
+        Parameters
+        ----------
+        file_group: list
+            list of file names in same date group
+
+        Returns
+        -------
+        call_data_object_list: list
+            list of call data objects generated from files in group
+
+        Raises
+        ------
+    """
+    pass
