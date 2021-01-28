@@ -1,4 +1,6 @@
 import csv
+from os import listdir
+from os.path import isfile
 
 def import_call_schedule_data(directory):
     """
@@ -17,4 +19,7 @@ def import_call_schedule_data(directory):
         Raises
         ------
     """
-    pass
+    data_file_names = [f for f in listdir(directory) if isfile(f) 
+    and f[0:14] == "FFIEC CDR Call Subset"]
+
+    return data_file_names
