@@ -154,6 +154,7 @@ field_header_index_dict, row, row_num, file_num):
             match unique identifier btwn row and call data object
             need to convert string idrssd into int for match
             TODO - update call_data_object match to idrssd for better speed
+            use binary chop because idrssd is sorted in asc order
         '''
         call_data_object = [cdo for cdo in call_data_object_list 
         if cdo.idrssd == int(row[id_header_index_dict["IDRSSD"]])][0]
@@ -161,10 +162,48 @@ field_header_index_dict, row, row_num, file_num):
             collect required fields and fill in relevant object fields
         '''
         for key in field_header_index_dict:
+            '''
+                convert strings for data fields to int when loading into call data obj field dict
+            '''
             getattr(call_data_object, "field_dict")[call_data_field_dict[key]] = (
-                row[field_header_index_dict[key]])
+                int(row[field_header_index_dict[key]]))
         
     return call_data_object_list
+
+def _call_data_idrssd_match(row_idrssd, call_data_object_list):
+    """
+    """
+    call_data_length = len(call_data_object_list)
+
+def _find_middle_index(length, list):
+    """
+    Determines the middle index of a list defaulting to lower index with even lengths
+
+        Parameters
+        ----------
+        length: int
+            length of a list
+        list: list
+            list of values
+
+        Returns
+        -------
+        middle_index: int
+            the middle index of a list defaulting to lower index with even lengths
+
+        Raises
+        ------
+    """
+    if bool(length % 2):
+        middle_index = list[int(length / 2 - 0.5)]
+    else:
+        '''
+            default to lower value if even length 
+        '''
+        middle_index = list[int(length / 2) - 1]
+
+    return middle_index
+    
 
 def _create_field_header_index_dictionary(header):
     """
