@@ -128,6 +128,8 @@ field_header_index_dict, row, row_num, file_num):
 
         Returns
         -------
+        call_data_object_list: list
+            list of call data objects including those modified by this function
 
         Raises
         ------
@@ -212,8 +214,8 @@ def _call_data_idrssd_match(row_idrssd, call_data_object_list):
     call_data_length = len(call_data_object_list)
     call_data_idrssd_list = [cdo.idrssd for cdo in call_data_object_list]
     call_data_index_list = list(range(call_data_length))
-
-    if call_data_length > 1:
+    
+    while call_data_length > 1:
         mid_index = _find_middle_index(call_data_idrssd_list)
         if row_idrssd > call_data_idrssd_list[mid_index]:
             call_data_idrssd_list = call_data_idrssd_list[(mid_index + 1):]
@@ -224,7 +226,7 @@ def _call_data_idrssd_match(row_idrssd, call_data_object_list):
 
         call_data_length = len(call_data_idrssd_list)
     else:
-        if row_idrssd == call_data_idrssd_list[0].idrssd:
+        if row_idrssd == call_data_idrssd_list[0]:
             return call_data_object_list[call_data_index_list[0]]
         else:
             return None
