@@ -89,7 +89,7 @@ def _call_data_objects_from_file_group(file_group, directory):
                     header = row
                     id_header_index_dict = _create_id_header_index_dictionary(header)
                     field_header_index_dict = _create_field_header_index_dictionary(header)
-                else:
+                elif row_num > 1:
                     _build_call_data_object_list(
                         call_data_object_list,
                         id_header_index_dict,
