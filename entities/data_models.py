@@ -176,7 +176,8 @@ class AggregateData():
 
 call_data_field_dict = {
     "RCON2170" : "TOTAL ASSETS",
-    "RCON2948" : "TOTAL LIABILITIES"
+    "RCON2948" : "TOTAL LIABILITIES",
+    "RIAD4010" : "INTEREST AND FEES ON LOANS"
 }
 
 missing_items = [
