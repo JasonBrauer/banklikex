@@ -146,7 +146,19 @@ field_header_index_dict, row, row_num, file_num):
         '''
         row_field_dict = {}
         for key in field_header_index_dict:
-            row_field_dict[call_data_field_dict[key]] = row[field_header_index_dict[key]]
+            '''
+                convert strings for data fields to int when loading into call data obj 
+                field dict
+            '''
+            value = row[field_header_index_dict[key]]
+            try:
+                value = int(value)
+            except:
+                '''
+                    if cannot convert value to int, then store as None so can throw out of analysis
+                '''
+                value = None
+            row_field_dict[call_data_field_dict[key]] = value
         setattr(call_data_object, "field_dict", row_field_dict)
         call_data_object_list.append(call_data_object)
     else:
@@ -163,12 +175,18 @@ field_header_index_dict, row, row_num, file_num):
         '''
             collect required fields and fill in relevant object fields
         '''
-        for key in field_header_index_dict:
-            '''
-                convert strings for data fields to int when loading into call data obj field dict
-            '''
-            getattr(call_data_object, "field_dict")[call_data_field_dict[key]] = (
-                int(row[field_header_index_dict[key]]))
+        if call_data_object is not None:
+            for key in field_header_index_dict:
+                '''
+                    convert strings for data fields to int when loading into call data obj 
+                    field dict
+                '''
+                value = row[field_header_index_dict[key]]
+                try:
+                    value = int(value)
+                except:
+                    value = None
+                getattr(call_data_object, "field_dict")[call_data_field_dict[key]] = value
         
     return call_data_object_list
 
