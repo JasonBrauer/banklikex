@@ -25,10 +25,10 @@ class CallData():
             self.__period = period
         else:
             try:
-                self.__period = date.strptime(period, "%m/%d/%Y")
+                self.__period = date.strptime(period, "%Y-%m-%d")
             except:
                 raise (
-                TypeError("period type must be either date, string in format 'mm/dd/YYYY' or None"))
+                TypeError("period type must be either date, string in format 'YYYY-mm-dd' or None"))
 
     @property
     def idrssd(self):
