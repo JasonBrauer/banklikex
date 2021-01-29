@@ -1,4 +1,5 @@
 import csv
+import copy
 from os import listdir
 
 from entities.data_models import call_data_field_dict, call_data_identifier_dict, CallData
@@ -156,8 +157,12 @@ field_header_index_dict, row, row_num, file_num):
             TODO - update call_data_object match to idrssd for better speed
             use binary chop because idrssd is sorted in asc order
         '''
-        call_data_object = [cdo for cdo in call_data_object_list 
-        if cdo.idrssd == int(row[id_header_index_dict["IDRSSD"]])][0]
+        # call_data_object = [cdo for cdo in call_data_object_list 
+        # if cdo.idrssd == int(row[id_header_index_dict["IDRSSD"]])][0]
+        call_data_object = _call_data_idrssd_match(
+            int(row[id_header_index_dict["IDRSSD"]]), 
+            call_data_object_list
+        )
         '''
             collect required fields and fill in relevant object fields
         '''
@@ -172,12 +177,47 @@ field_header_index_dict, row, row_num, file_num):
 
 def _call_data_idrssd_match(row_idrssd, call_data_object_list):
     """
+    Finds the call data object with idrssd that matches the current row idrssd
+
+        Parameters
+        ----------
+        row_idrssd: int
+            idrssd from current data row
+        call_data_object_list: list
+            list of call data objects
+
+        Returns
+        -------
+        call_data_object: CallData object or None
+            call data object that matches the provided row idrssd or None
+
+        Raises
+        ------
     """
     call_data_length = len(call_data_object_list)
+    call_data_idrssd_list = [cdo.idrssd for cdo in call_data_object_list]
+    call_data_index_list = list(range(call_data_length))
+
+    if call_data_length > 1:
+        mid_index = _find_middle_index(call_data_length, call_data_idrssd_list)
+        import pdb; pdb.set_trace()
+        if row_idrssd > call_data_idrssd_list[mid_index]:
+            call_data_idrssd_list = call_data_idrssd_list[(mid_index + 1):]
+            call_data_index_list = call_data_index_list[(mid_index + 1):]
+        else:
+            call_data_idrssd_list = call_data_idrssd_list[:(mid_index + 1)]
+            call_data_index_list = call_data_index_list[:(mid_index + 1)]
+
+        call_data_length = len(call_data_idrssd_list)
+    else:
+        if row_idrssd == call_data_idrssd_list[0].idrssd:
+            return call_data_object_list[call_data_index_list[0]]
+        else:
+            return None
 
 def _find_middle_index(length, list):
     """
-    Determines the middle index of a list defaulting to lower index with even lengths
+    Binary chop to find the middle index of a list defaulting to lower index with even lengths
 
         Parameters
         ----------
@@ -204,7 +244,6 @@ def _find_middle_index(length, list):
 
     return middle_index
     
-
 def _create_field_header_index_dictionary(header):
     """
     Creates a dictionary of data index number associated with each desired field header
