@@ -199,7 +199,7 @@ def _call_data_idrssd_match(row_idrssd, call_data_object_list):
     call_data_index_list = list(range(call_data_length))
 
     if call_data_length > 1:
-        mid_index = _find_middle_index(call_data_length, call_data_idrssd_list)
+        mid_index = _find_middle_index(call_data_idrssd_list)
         import pdb; pdb.set_trace()
         if row_idrssd > call_data_idrssd_list[mid_index]:
             call_data_idrssd_list = call_data_idrssd_list[(mid_index + 1):]
@@ -215,15 +215,13 @@ def _call_data_idrssd_match(row_idrssd, call_data_object_list):
         else:
             return None
 
-def _find_middle_index(length, list):
+def _find_middle_index(list_in):
     """
     Binary chop to find the middle index of a list defaulting to lower index with even lengths
 
         Parameters
         ----------
-        length: int
-            length of a list
-        list: list
+        list_in: list
             list of values
 
         Returns
@@ -234,13 +232,14 @@ def _find_middle_index(length, list):
         Raises
         ------
     """
+    length = len(list_in)
     if bool(length % 2):
-        middle_index = list[int(length / 2 - 0.5)]
+        middle_index = int(length / 2 - 0.5)
     else:
         '''
             default to lower value if even length 
         '''
-        middle_index = list[int(length / 2) - 1]
+        middle_index = int(length / 2) - 1
 
     return middle_index
     
