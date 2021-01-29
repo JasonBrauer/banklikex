@@ -174,7 +174,7 @@ class AggregateData():
     TODO - Add more categories to describe loan types / content
 '''
 
-call_data_import_list = [
+call_data_field_list = [
     "TOTAL ASSETS",
     "TOTAL LIABILITIES",
     "NET INCOME",
