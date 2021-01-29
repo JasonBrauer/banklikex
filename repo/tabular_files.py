@@ -146,7 +146,7 @@ field_header_index_dict, row, row_num, file_num):
         '''
         row_field_dict = {}
         for key in field_header_index_dict:
-            row_field_dict[key] = row[field_header_index_dict[key]]
+            row_field_dict[call_data_field_dict[key]] = row[field_header_index_dict[key]]
         setattr(call_data_object, "field_dict", row_field_dict)
 
         call_data_object_list.append(call_data_object)
@@ -163,7 +163,7 @@ field_header_index_dict, row, row_num, file_num):
             collect required fields and fill in relevant object fields
         '''
         for key in field_header_index_dict:
-            getattr(call_data_object, "field_dict")[key] = (
+            getattr(call_data_object, "field_dict")[call_data_field_dict[key]] = (
                 row[field_header_index_dict[key]])
 
     return call_data_object_list
