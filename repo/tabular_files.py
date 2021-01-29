@@ -154,11 +154,8 @@ field_header_index_dict, row, row_num, file_num):
             fill in remaining required fields in call data objects from additional files
             match unique identifier btwn row and call data object
             need to convert string idrssd into int for match
-            TODO - update call_data_object match to idrssd for better speed
-            use binary chop because idrssd is sorted in asc order
+            binary chop for idrssd match match time by about 2x
         '''
-        # call_data_object = [cdo for cdo in call_data_object_list 
-        # if cdo.idrssd == int(row[id_header_index_dict["IDRSSD"]])][0]
         call_data_object = _call_data_idrssd_match(
             int(row[id_header_index_dict["IDRSSD"]]), 
             call_data_object_list
@@ -200,7 +197,6 @@ def _call_data_idrssd_match(row_idrssd, call_data_object_list):
 
     if call_data_length > 1:
         mid_index = _find_middle_index(call_data_idrssd_list)
-        import pdb; pdb.set_trace()
         if row_idrssd > call_data_idrssd_list[mid_index]:
             call_data_idrssd_list = call_data_idrssd_list[(mid_index + 1):]
             call_data_index_list = call_data_index_list[(mid_index + 1):]
