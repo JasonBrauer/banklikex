@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 
 class CallData():
     """
@@ -25,7 +25,7 @@ class CallData():
             self.__period = period
         else:
             try:
-                self.__period = date.strptime(period, "%Y-%m-%d")
+                self.__period = datetime.strptime(period, "%Y-%m-%d").date()
             except:
                 raise (
                 TypeError("period type must be either date, string in format 'YYYY-mm-dd' or None"))
