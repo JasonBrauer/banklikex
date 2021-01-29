@@ -1,7 +1,7 @@
 import csv
 from os import listdir
 
-from entities.data_models import call_data_field_list, call_data_identifier_dict, CallData
+from entities.data_models import call_data_field_dict, call_data_identifier_dict, CallData
 
 def import_call_schedule_data(directory):
     """
@@ -187,7 +187,7 @@ def _create_field_header_index_dictionary(header):
     """
     field_header_index_dict = {}
     for name in header:
-        if name in call_data_field_list:
+        if name in call_data_field_dict.keys():
             field_header_index_dict[name] = header.index(name)
 
     return field_header_index_dict
