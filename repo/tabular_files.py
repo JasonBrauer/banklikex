@@ -85,33 +85,80 @@ def _call_data_objects_from_file_group(file_group, directory):
             call_data_reader = csv.reader(call_data_file, delimiter="\t")
             row_num = 0
             for row in call_data_reader:
-                call_data_object = CallData()
-                if row_num == 0:
-                    header = row
-                    id_header_index_dict = _create_id_header_index_dictionary(header)
-                    field_header_index_dict = _create_field_header_index_dictionary(header)
-                else:
-                    '''
-                        collect each call data identifier if in first file
-                    '''
-                    if file_num == 0:
-                        for key in id_header_index_dict:
-                            setattr(call_data_object, call_data_identifier_dict[key], 
-                            row[id_header_index_dict[key]])
-
-                    '''
-                        collect required fields
-                    '''
-                    row_field_dict = {}
-                    for key in field_header_index_dict:
-                        row_field_dict[key] = row[id_header_index_dict[key]]
-                    setattr(call_data_object, "field_dict", row_field_dict)
-
-                    call_data_object_list.append(call_data_object)
+                _build_call_data_object_list(
+                    call_data_object_list,
+                    row,
+                    row_num,
+                    file_num
+                )
 
                 row_num += 1
 
         file_num += 1
+
+    return call_data_object_list
+
+def _build_call_data_object_list(call_data_object_list, row, row_num, file_num):
+    """
+    Appends data to provided call data object list
+
+        Parameters
+        ----------
+        call_data_object_list: list
+            list of call data objects
+        row: list
+            row of data from call data file
+        row_num: int
+            number of the row in the call data file
+        file_num: int
+            call data file number
+
+        Returns
+        -------
+
+        Raises
+        ------
+    """
+    if row_num == 0:
+        header = row
+        id_header_index_dict = _create_id_header_index_dictionary(header)
+        field_header_index_dict = _create_field_header_index_dictionary(header)
+    else:
+        if file_num == 0:
+            call_data_object = CallData()
+            '''
+                collect each call data identifier
+            '''
+            for key in id_header_index_dict:
+                setattr(call_data_object, call_data_identifier_dict[key], 
+                row[id_header_index_dict[key]])
+
+            '''
+                collect required fields and build objects
+            '''
+            row_field_dict = {}
+            for key in field_header_index_dict:
+                row_field_dict[key] = row[field_header_index_dict[key]]
+            setattr(call_data_object, "field_dict", row_field_dict)
+
+            call_data_object_list.append(call_data_object)
+        else:
+            '''
+                fill in remaining required fields in call data objects from additional files
+            '''
+            '''
+                match unique identifier btwn row and call data object
+            '''
+            call_data_object = [cdo for cdo in call_data_object_list 
+            if cdo.idrssd == row[id_header_index_dict["IDRSSD"]]][0]
+            '''
+                collect required fields and fill in relevant object fields
+            '''
+            for key in field_header_index_dict:
+                getattr(call_data_object, "field_dict")[key] = (
+                    row[field_header_index_dict[key]])
+
+    return call_data_object_list
 
 def _create_field_header_index_dictionary(header):
     """
