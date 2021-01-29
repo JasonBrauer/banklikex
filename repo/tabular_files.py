@@ -136,7 +136,6 @@ field_header_index_dict, row, row_num, file_num):
         '''
             collect each call data identifier
         '''
-        import pdb; pdb.set_trace()
         for key in id_header_index_dict:
             setattr(call_data_object, call_data_identifier_dict[key], 
             row[id_header_index_dict[key]])
@@ -148,24 +147,23 @@ field_header_index_dict, row, row_num, file_num):
         for key in field_header_index_dict:
             row_field_dict[call_data_field_dict[key]] = row[field_header_index_dict[key]]
         setattr(call_data_object, "field_dict", row_field_dict)
-
         call_data_object_list.append(call_data_object)
     else:
         '''
             fill in remaining required fields in call data objects from additional files
-        '''
-        '''
             match unique identifier btwn row and call data object
+            need to convert string idrssd into int for match
+            TODO - update call_data_object match to idrssd for better speed
         '''
         call_data_object = [cdo for cdo in call_data_object_list 
-        if cdo.idrssd == row[id_header_index_dict["IDRSSD"]]][0]
+        if cdo.idrssd == int(row[id_header_index_dict["IDRSSD"]])][0]
         '''
             collect required fields and fill in relevant object fields
         '''
         for key in field_header_index_dict:
             getattr(call_data_object, "field_dict")[call_data_field_dict[key]] = (
                 row[field_header_index_dict[key]])
-
+        
     return call_data_object_list
 
 def _create_field_header_index_dictionary(header):
