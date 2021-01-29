@@ -81,12 +81,18 @@ def _call_data_objects_from_file_group(file_group, directory):
     file_num = 0
     for file_name in file_group:
         file_w_directory = directory + "\\" + file_name
-        with open(file_w_directory, mode='br') as call_data_file:
+        with open(file_w_directory, mode='r') as call_data_file:
             call_data_reader = csv.reader(call_data_file, delimiter="\t")
             row_num = 0
             for row in call_data_reader:
+                if row_num == 0:
+                    header = row
+                    id_header_index_dict = _create_id_header_index_dictionary(header)
+                    field_header_index_dict = _create_field_header_index_dictionary(header)
                 _build_call_data_object_list(
                     call_data_object_list,
+                    id_header_index_dict,
+                    field_header_index_dict,
                     row,
                     row_num,
                     file_num
@@ -98,7 +104,8 @@ def _call_data_objects_from_file_group(file_group, directory):
 
     return call_data_object_list
 
-def _build_call_data_object_list(call_data_object_list, row, row_num, file_num):
+def _build_call_data_object_list(call_data_object_list, id_header_index_dict, 
+field_header_index_dict, row, row_num, file_num):
     """
     Appends data to provided call data object list
 
@@ -106,6 +113,10 @@ def _build_call_data_object_list(call_data_object_list, row, row_num, file_num):
         ----------
         call_data_object_list: list
             list of call data objects
+        id_header_index_dict: dict
+            dictionary containing id header names as keys in index as values
+        field_header_index_dict: dict
+            dictionary containing field header names as keys in index as values
         row: list
             row of data from call data file
         row_num: int
@@ -119,10 +130,6 @@ def _build_call_data_object_list(call_data_object_list, row, row_num, file_num):
         Raises
         ------
     """
-    if row_num == 0:
-        header = row
-        id_header_index_dict = _create_id_header_index_dictionary(header)
-        field_header_index_dict = _create_field_header_index_dictionary(header)
     else:
         if file_num == 0:
             call_data_object = CallData()
