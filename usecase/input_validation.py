@@ -16,6 +16,8 @@ def validate_call_data_object_list(call_data_object_list):
 
         Raises
         ------
+        AssertionError: AssertionError
+            if not a list and items in list are not CallData objects
     """
     assert type(call_data_object_list) == list, "call_data_object_list must be a list"
     for obj in call_data_object_list:
@@ -39,6 +41,8 @@ def validate_directory(directory):
 
         Raises
         ------
+        AssertionError: AssertionError
+            if provided directory is not valid on the system
     """
     assert os.path.isdir(directory), "not a valid or available directory"
 
