@@ -176,7 +176,7 @@ class AggregateData():
 
 call_data_field_dict = {
     "RCFD2170" : "TOTAL ASSETS",
-    "RCFD2948" : "TOTAL LIABILITIES",
+    "RCFD2948" : "TOTAL LIABILITIES"
 }
 
 missing_items = [
