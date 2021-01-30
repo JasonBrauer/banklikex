@@ -15,7 +15,7 @@ def import_call_schedule_data(directory):
 
         Returns
         -------
-        call_data_object_dict: dict
+        call_data_object_list: dict
             dict with year as key and values as call data object lists filled with imported data
 
         Raises
@@ -23,14 +23,14 @@ def import_call_schedule_data(directory):
     """
     data_file_names = [f for f in listdir(directory) if f[0:21] == "FFIEC CDR Call Subset"]
     grouped_file_dict = _group_files_by_year(data_file_names)
-    call_data_object_dict = {}
+    call_data_object_list = []
     for key in grouped_file_dict:
         grouped_call_data_object_list = _call_data_objects_from_file_group(grouped_file_dict[key], 
         directory)
-        call_data_object_dict[key] = grouped_call_data_object_list
+        call_data_object_list.extend(grouped_call_data_object_list)
 
 
-    return call_data_object_dict
+    return call_data_object_list
 
 def _group_files_by_year(file_list):
     """
