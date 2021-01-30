@@ -31,7 +31,7 @@ def find_distinct_idrssd(valid_call_data_object_list):
         Returns
         -------
         distinct_idrssd_list: 
-            dict of call data objects grouped by year
+            list of unique idrssd values in dataset
 
         Raises
         ------
@@ -39,7 +39,10 @@ def find_distinct_idrssd(valid_call_data_object_list):
     distinct_idrssd_list = []
     first_period = valid_call_data_object_list[0].period
     '''
-        periods all grouped together in dataset and every period has the same set of idrssd values
+        assumes every period has the same set of idrssd values
+        TODO - its doesn't appear to be the case that all periods contain the same idrssd values,
+        so a few may be skipped with this method. Ideally all periods would be searched and a 
+        unique list developed after comparing the differences
     '''
     for data_obj in valid_call_data_object_list:
         if data_obj.period != first_period:
