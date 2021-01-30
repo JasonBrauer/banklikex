@@ -65,14 +65,19 @@ def _find_all_periods(call_data_object_list, idrssd):
         Raises
         ------
     """
+    grouped_cdo_idrssd = []
     '''
         split call data object list into multiple lists separated by period
     '''
-
+    period_call_data_object_dict = _split_by_period(call_data_object_list)
     '''
         search for matching idrssd in each list
     '''
-    pass
+    for period in period_call_data_object_dict:
+        grouped_cdo_idrssd.append(
+            _call_data_idrssd_match(idrssd, period_call_data_object_dict[period]))
+
+    return grouped_cdo_idrssd
 
 def _split_by_period(call_data_object_list):
     """
@@ -166,6 +171,24 @@ def _find_middle_index(list_in):
         middle_index = int(length / 2) - 1
 
     return middle_index
+
+def _average_all_periods(call_data_object_list):
+    """
+    averages data from all periods for each field in call data object list
+
+        Parameters
+        ----------
+        call_data_object_list: list
+            list of call data objects from different periods with a common idrssd
+
+        Returns
+        -------
+        middle_index: int
+            the middle index of a list defaulting to lower index with even lengths
+
+        Raises
+        ------
+    """
         
 
 
