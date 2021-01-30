@@ -200,10 +200,16 @@ def _average_all_periods(call_data_object_list):
     for obj in call_data_object_list:
         for field in obj.field_dict:
             if field not in avg_dict:
-                avg_dict[field] = [obj.field_dict.field]
+                avg_dict[field] = [obj.field_dict[field]]
             else:
+                avg_dict[field].append(obj.field_dict[field])
+    
+    for field in avg_dict:
+        avg_dict[field] = sum(avg_dict[field]) / len(avg_dict[field])
+    
+    average_call_data.field_dict = avg_dict
 
-    average_call_data.field_dict
+    return average_call_data
 
         
 
