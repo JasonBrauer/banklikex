@@ -116,7 +116,7 @@ class CallData():
         else:
             raise TypeError("field_dict type must be dict or None")
 
-class AggregateData():
+class AggregateCallData():
     """
     Structure to hold aggregated data from FFEIC call data summaries
     """
