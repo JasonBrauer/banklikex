@@ -26,8 +26,9 @@ def find_all_periods(call_data_object_list, idrssd):
         search for matching idrssd in each list
     '''
     for period in period_call_data_object_dict:
-        grouped_cdo_idrssd.append(
-            _call_data_idrssd_match(idrssd, period_call_data_object_dict[period]))
+        obj_match = _call_data_idrssd_match(idrssd, period_call_data_object_dict[period])
+        if obj_match is not None:
+            grouped_cdo_idrssd.append(obj_match)
 
     return grouped_cdo_idrssd
 
@@ -150,10 +151,11 @@ def average_all_periods(call_data_object_list):
     avg_dict = {}
     for obj in call_data_object_list:
         for field in obj.field_dict:
-            if field not in avg_dict:
-                avg_dict[field] = [obj.field_dict[field]]
-            else:
-                avg_dict[field].append(obj.field_dict[field])
+            if obj.field_dict[field] is not None:
+                if field not in avg_dict:
+                    avg_dict[field] = [obj.field_dict[field]]
+                else:
+                    avg_dict[field].append(obj.field_dict[field])
     
     for field in avg_dict:
         avg_dict[field] = sum(avg_dict[field]) / len(avg_dict[field])
@@ -164,5 +166,21 @@ def average_all_periods(call_data_object_list):
 
 def create_distribution():
     """
+    Calculates the distribution from the aggregate objects for the specified field
+
+        Parameters
+        ----------
+        call_data_agg_object_list: list
+            list of call data aggregate objects
+        field: string
+            field that will have a distribution created
+
+        Returns
+        -------
+        average_call_data: AggregateCallData
+            aggregate call data object with field values of all periods in provided list averaged
+
+        Raises
+        ------
     """
     pass
