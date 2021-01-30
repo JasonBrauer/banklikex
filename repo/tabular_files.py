@@ -85,36 +85,37 @@ def _call_data_objects_from_file_group(file_group, directory):
         ------
     """
     call_data_object_list = []
+    '''
+        after reviewing call data files, assume each annual period will always come in file pairs
+    '''
+    file_1_w_directory = directory + "\\" + file_group[0]
+    file_2_w_directory = directory + "\\" + file_group[1]
+    with open(file_1_w_directory, mode='r') as call_data_file_1, open(file_2_w_directory, mode='r') as call_data_file_2:
+        call_data_reader_1 = csv.reader(call_data_file_1, delimiter="\t")
+        call_data_reader_2 = csv.reader(call_data_file_2, delimiter="\t")
+        row_num = 0
+        for row_r1, row_r2 in zip(call_data_reader_1, call_data_reader_2):
+            if row_num == 0:
+                header_r1 = row_r1
+                header_r2 = row_r2
+                id_header_index_dict = _create_id_header_index_dictionary(header_r1)
+                field_header_index_dict_r1 = _create_field_header_index_dictionary(header_r1)
+                field_header_index_dict_r2 = _create_field_header_index_dictionary(header_r2)
+            elif row_num > 1:
+                _build_call_data_object_list(
+                    call_data_object_list,
+                    id_header_index_dict,
+                    (field_header_index_dict_r1, field_header_index_dict_r2),
+                    (row_r1, row_r2),
+                    row_num
+                )
 
-    file_num = 0
-    for file_name in file_group:
-        file_w_directory = directory + "\\" + file_name
-        with open(file_w_directory, mode='r') as call_data_file:
-            call_data_reader = csv.reader(call_data_file, delimiter="\t")
-            row_num = 0
-            for row in call_data_reader:
-                if row_num == 0:
-                    header = row
-                    id_header_index_dict = _create_id_header_index_dictionary(header)
-                    field_header_index_dict = _create_field_header_index_dictionary(header)
-                elif row_num > 1:
-                    _build_call_data_object_list(
-                        call_data_object_list,
-                        id_header_index_dict,
-                        field_header_index_dict,
-                        row,
-                        row_num,
-                        file_num
-                    )
-
-                row_num += 1
-
-        file_num += 1
+            row_num += 1
 
     return call_data_object_list
 
 def _build_call_data_object_list(call_data_object_list, id_header_index_dict, 
-field_header_index_dict, row, row_num, file_num):
+field_header_index_dict_tuple, row_tuple, row_num):
     """
     Appends data to provided call data object list
 
@@ -124,14 +125,12 @@ field_header_index_dict, row, row_num, file_num):
             list of call data objects
         id_header_index_dict: dict
             dictionary containing id header names as keys in index as values
-        field_header_index_dict: dict
-            dictionary containing field header names as keys in index as values
-        row: list
-            row of data from call data file
+        field_header_index_dict_tuple: tuple
+            list of field header index dictionaries for each file 
+        row_tuple: tuple
+            tuple of current rows in file 1 and file 2
         row_num: int
             number of the row in the call data file
-        file_num: int
-            call data file number
 
         Returns
         -------
@@ -141,31 +140,26 @@ field_header_index_dict, row, row_num, file_num):
         Raises
         ------
     """
+    call_data_object = CallData()
     '''
-        TODO - if can guaruntee that all paired files will have the same banks in the 
-        same order, then could drastically reduce data import time by reading from 
-        both files at the same time rather than the current matching process to load data
-        from the second file
+        collect each call data identifier, id headers are the same in both files
     '''
-    if file_num == 0:
-        call_data_object = CallData()
-        '''
-            collect each call data identifier
-        '''
-        for key in id_header_index_dict:
-            setattr(call_data_object, call_data_identifier_dict[key], 
-            row[id_header_index_dict[key]])
+    for key in id_header_index_dict:
+        setattr(call_data_object, call_data_identifier_dict[key], 
+        row_tuple[0][id_header_index_dict[key]])
 
-        '''
-            collect required fields and build objects
-        '''
-        row_field_dict = {}
-        for key in field_header_index_dict:
+    '''
+        collect required fields and build objects
+    '''
+    row_field_dict = {}
+    f = 0
+    for row, key_dict in zip(row_tuple, field_header_index_dict_tuple):
+        for key in key_dict:
             '''
                 convert strings for data fields to int when loading into call data obj 
                 field dict
             '''
-            value = row[field_header_index_dict[key]]
+            value = row[field_header_index_dict_tuple[f][key]]
             try:
                 value = int(value)
             except:
@@ -174,34 +168,11 @@ field_header_index_dict, row, row_num, file_num):
                 '''
                 value = None
             row_field_dict[call_data_field_dict[key]] = value
-        setattr(call_data_object, "field_dict", row_field_dict)
-        call_data_object_list.append(call_data_object)
-    else:
-        '''
-            fill in remaining required fields in call data objects from additional files
-            match unique identifier btwn row and call data object
-            need to convert string idrssd into int for match
-            binary chop for idrssd match match time by about 2x
-        '''
-        call_data_object = _call_data_idrssd_match(
-            int(row[id_header_index_dict["IDRSSD"]]), 
-            call_data_object_list
-        )
-        '''
-            collect required fields and fill in relevant object fields
-        '''
-        if call_data_object is not None:
-            for key in field_header_index_dict:
-                '''
-                    convert strings for data fields to int when loading into call data obj 
-                    field dict
-                '''
-                value = row[field_header_index_dict[key]]
-                try:
-                    value = int(value)
-                except:
-                    value = None
-                getattr(call_data_object, "field_dict")[call_data_field_dict[key]] = value
+    
+        f += 1
+
+    setattr(call_data_object, "field_dict", row_field_dict)
+    call_data_object_list.append(call_data_object)
         
     return call_data_object_list
 
