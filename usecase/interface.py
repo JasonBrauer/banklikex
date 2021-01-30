@@ -65,6 +65,40 @@ def _find_all_periods(call_data_object_list, idrssd):
         Raises
         ------
     """
+    '''
+        split call data object list into multiple lists separated by period
+    '''
+
+    '''
+        search for matching idrssd in each list
+    '''
+    pass
+
+def _split_by_period(call_data_object_list):
+    """
+    Splits call data object list into separate lists by period
+        
+        Parameters
+        ----------
+        call_data_object_list: list
+            list of call data objects
+
+        Returns
+        -------
+        period_call_data_object_dict: 
+            dict of call data object lists grouped by period
+
+        Raises
+        ------
+    """
+    period_call_data_object_dict = {}
+    period_start = call_data_object_list[0].period
+    for obj in call_data_object_list:
+        if obj.period not in period_call_data_object_dict.keys():
+            period_call_data_object_dict[obj.period] = [obj]
+        period_call_data_object_dict[obj.period].append(obj)
+
+    return period_call_data_object_dict
 
 def _call_data_idrssd_match(idrssd, call_data_object_list):
     """
