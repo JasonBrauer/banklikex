@@ -1,4 +1,5 @@
 from repo.tabular_files import import_call_schedule_data
+from entities.data_models import AggregateCallData
 
 def load_call_data(valid_directory):
     """
@@ -101,7 +102,8 @@ def _split_by_period(call_data_object_list):
     for obj in call_data_object_list:
         if obj.period not in period_call_data_object_dict.keys():
             period_call_data_object_dict[obj.period] = [obj]
-        period_call_data_object_dict[obj.period].append(obj)
+        else:
+            period_call_data_object_dict[obj.period].append(obj)
 
     return period_call_data_object_dict
 
@@ -174,7 +176,7 @@ def _find_middle_index(list_in):
 
 def _average_all_periods(call_data_object_list):
     """
-    averages data from all periods for each field in call data object list
+    Averages data from all periods for each field in call data object list
 
         Parameters
         ----------
@@ -183,12 +185,26 @@ def _average_all_periods(call_data_object_list):
 
         Returns
         -------
-        middle_index: int
-            the middle index of a list defaulting to lower index with even lengths
+        average_call_data: AggregateCallData
+            aggregate call data object with field values of all periods in provided list averaged
 
         Raises
         ------
     """
+    average_call_data = AggregateCallData()
+
+    average_call_data.aggregation = "average"
+    average_call_data.idrssd = call_data_object_list[0].idrssd
+
+    avg_dict = {}
+    for obj in call_data_object_list:
+        for field in obj.field_dict:
+            if field not in avg_dict:
+                avg_dict[field] = [obj.field_dict.field]
+            else:
+
+    average_call_data.field_dict
+
         
 
 
