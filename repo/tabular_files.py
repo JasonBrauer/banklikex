@@ -141,6 +141,12 @@ field_header_index_dict, row, row_num, file_num):
         Raises
         ------
     """
+    '''
+        TODO - if can guaruntee that all paired files will have the same banks in the 
+        same order, then could drastically reduce data import time by reading from 
+        both files at the same time rather than the current matching process to load data
+        from the second file
+    '''
     if file_num == 0:
         call_data_object = CallData()
         '''
