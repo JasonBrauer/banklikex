@@ -10,11 +10,13 @@ def load_call_data(valid_directory):
 
         Returns
         -------
-        call_data_object_list: list
-            list of call data objects
+        call_data_object_dict: dict
+            dict of call data objects grouped by year
 
         Raises
         ------
     """
-    pass
+    call_data_obj_dict = import_call_schedule_data(valid_directory)
+
+    return call_data_obj_dict
 
