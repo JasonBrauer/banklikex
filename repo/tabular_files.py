@@ -15,15 +15,22 @@ def import_call_schedule_data(directory):
 
         Returns
         -------
-        call_object_list: list
-            list of call data objects filled with imported data
+        call_data_object_dict: dict
+            dict with year as key and values as call data object lists filled with imported data
 
         Raises
         ------
     """
     data_file_names = [f for f in listdir(directory) if f[0:21] == "FFIEC CDR Call Subset"]
+    grouped_file_dict = _group_files_by_year(data_file_names)
+    call_data_object_dict = {}
+    for key in grouped_file_dict:
+        grouped_call_data_object_list = _call_data_objects_from_file_group(grouped_file_dict[key], 
+        directory)
+        call_data_object_dict[key] = grouped_call_data_object_list
 
-    return data_file_names
+
+    return call_data_object_dict
 
 def _group_files_by_year(file_list):
     """
@@ -36,27 +43,27 @@ def _group_files_by_year(file_list):
 
         Returns
         -------
-        grouped_file_list: list
-            list of call data file names grouped by year
+        grouped_file_dict: dict
+            dictionary of call data file names grouped by year
 
         Raises
         ------
     """
-    grouped_file_list = []
+    grouped_file_dict = {}
     previous_year = ""
     subgroup = []
     for file_name in file_list:
         year = file_name.split(" ")[-3:][0].split("(")[0]
         if year != previous_year and bool(subgroup):
-            grouped_file_list.append(subgroup)
+            grouped_file_dict[previous_year] = subgroup
             subgroup = []
 
         subgroup.append(file_name)
         previous_year = year
     else:
-        grouped_file_list.append(subgroup)
+        grouped_file_dict[previous_year] = subgroup
 
-    return grouped_file_list
+    return grouped_file_dict
 
 def _call_data_objects_from_file_group(file_group, directory):
     """
