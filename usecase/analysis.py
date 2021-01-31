@@ -262,6 +262,9 @@ def find_similar_bank_field(input_bank_idrssd, period_agg_object_list, ecdf_obj,
             comp_bank_percentile = ecdf_obj(obj.field_dict[field])
             low_bound = input_bank_percentile - percentile_window
             high_bound = input_bank_percentile + percentile_window
+            '''
+                TODO - fix the fact that creating shorter window at distribution ends
+            '''
             if low_bound < 0:
                 low_bound = 0.0
             if high_bound > 1:
