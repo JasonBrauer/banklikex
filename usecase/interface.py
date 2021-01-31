@@ -1,7 +1,8 @@
 from repo.tabular_files import import_call_schedule_data
 
 from usecase.analysis import (find_all_periods, average_all_periods, create_data_dict_list, 
-create_distribution, find_similar_bank_field, find_similar_bank_intersection)
+create_distribution, find_similar_bank_field, find_similar_bank_intersection, 
+call_data_idrssd_match)
 
 def load_call_data(valid_directory):
     """
@@ -90,6 +91,28 @@ def find_similar_banks(valid_idrssd, valid_call_data_object_list):
 
     return matching_agg_obj_list
 
+def idrssd_to_bank_name(valid_idrssd, valid_call_data_object_list):
+    """
+        Looks up a bank name via call data object list for provided idrssd
+
+        Parameters
+        ----------
+        valid_idrssd: int
+            validated bank unique idrssd
+        valid_call_data_object_list: list
+            validated list of call data objects
+
+        Returns
+        -------
+        matching_bank_name: str
+            bank name associated with provided idrssd
+
+        Raises
+        ------
+    """
+    matched_call_data_obj = call_data_idrssd_match(valid_idrssd, valid_call_data_object_list)
+    
+    return matched_call_data_obj.bank_name
     
 
 
