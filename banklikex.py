@@ -1,6 +1,7 @@
 import argparse
 
-from usecase.interface import load_call_data, find_similar_banks, idrssd_to_bank_name
+from usecase.interface import (load_call_data, find_similar_banks, idrssd_to_bank_name, 
+load_overall_distributions)
 from usecase.input_validation import (validate_idrssd, validate_directory, 
 validate_call_data_object_list)
 
@@ -13,7 +14,10 @@ parser.add_argument("--find_similar_banks", nargs=2,
     \narg_2: directory - directory where bank call data is stored")
 parser.add_argument("--show_bank_names", action="store_true", 
     help="used with find similar banks to also list bank names")
-# parser.add_argument("--plot", help="plots the distributions of all fields used to compare banks")
+parser.add_argument("--plot_distributions",
+    help="plots the distributions of all fields used to compare banks\
+    \narg_1: directory - directory where bank call data is stored"
+    )
 
 args = parser.parse_args()
 
@@ -34,6 +38,37 @@ if args.find_similar_banks:
             validated_call_data_object_list))
         else:
             print(obj.idrssd)
+
+if args.plot_distributions:
+    call_data_object_list = load_call_data(
+        validate_directory(validate_directory(args.plot_distributions))
+    )
+
+    data_dict_list, ecdf_obj_dict = load_overall_distributions(
+        validate_call_data_object_list(call_data_object_list)
+    )
+          
+    ct = 0
+    for field in data_dict_list:
+        # pyplot.figure(ct)
+        # pyplot.title(field)
+        fig, ax1 = pyplot.subplots()
+        fig(ct)
+        fig.title(field)
+        ax2 = ax1.twinx()
+
+        ax1.hist(data_dict_list[field], bins=100, color='g')
+        ax2.plot(ecdf_obj_dict[field].x, ecdf_obj_dict[field].y, 'b')
+
+        ax1.set_xlabel(field + ' Values')
+        ax1.set_ylabel('Count', color='g')
+        ax2.set_ylabel('Percentile', color='b')
+
+        pyplot.figure(ct)
+        pyplot.title(field)
+        pyplot.hist(data_dict_list[field], bins=100)
+
+    pyplot.show()
 
 
 
