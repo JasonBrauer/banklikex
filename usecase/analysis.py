@@ -1,3 +1,5 @@
+from statsmodels.distributions.empirical_distribution import ECDF
+
 from entities.data_models import AggregateCallData
 
 def find_all_periods(call_data_object_list, idrssd):
@@ -164,14 +166,14 @@ def average_all_periods(call_data_object_list):
 
     return average_call_data
 
-def create_distribution():
+def create_distribution(data_dict_list, field):
     """
     Calculates the distribution from the aggregate objects for the specified field
 
         Parameters
         ----------
-        call_data_agg_object_list: list
-            list of call data aggregate objects
+        period_agg_object_list: list
+            list of call data aggregate objects with fields averaged across all periods in dataset
         field: string
             field that will have a distribution created
 
@@ -184,3 +186,30 @@ def create_distribution():
         ------
     """
     pass
+
+def create_data_dict_list(period_agg_object_list):
+    """
+    Calculates the distribution from the aggregate objects for the specified field
+
+        Parameters
+        ----------
+        period_agg_object_list: list
+            list of call data aggregate objects with fields averaged across all periods in dataset
+
+        Returns
+        -------
+        data_dict_list: list
+            each key in dict is a field and each value is list of values from all input agg objects
+
+        Raises
+        ------
+    """
+    data_dict_list = {}
+    for obj in period_agg_obj_list:
+        for field in obj.field_dict:
+            if field not in data_dict_list:
+                data_dict_list[field] = [obj.field_dict[field]]
+            else:
+                data_dict_list[field].append(obj.field_dict[field])
+    
+    return data_dict_list
