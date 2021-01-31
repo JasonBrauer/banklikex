@@ -68,6 +68,7 @@ I first started by importing and cleaning up the data set. It was important to g
     </span>
 
     &nbsp;
+    
     ![ECDF Image](../images/Empirical_Cumulative_Distribution.png)
 
 3. Now that you’re done, suppose a co-worker is eager to use your results & ideas in our business,
