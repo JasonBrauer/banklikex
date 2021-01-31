@@ -59,7 +59,7 @@ if args.plot_distributions:
 
         ax1.set_xlabel(field)
         ax1.set_ylabel('Count', color='g')
-        ax2.set_ylabel('Percentile', color='b')
+        ax2.set_ylabel('CDF Percentile', color='b')
 
     pyplot.show()
 
