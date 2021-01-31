@@ -16,9 +16,9 @@ this problem. We would like you to solve the “banks like this one” problem.
 1. Where would you start? What information do you wish you had? In the absence of perfect
 knowledge and access to perfect data, what can you do to make a first attempt?  
 <span style="color:orange">
-I would start by getting familiar with the data set. Understanding the dataset provides a lot of insight into the scope of the project. You can immediately get an idea of how much effort it will take to import can clean the data set. You can also being to formulate some ideas on how you will break it down into some sort of model allowing for easy interaction and analysis.  
+I would start by getting familiar with the data set. Understanding the dataset provides a lot of insight into the scope of the project. You can immediately get an idea of how much effort it will take to import and clean the data set. You can also begin to formulate some ideas on how you will break it down into some sort of model allowing for easy interaction and analysis.  
 &nbsp;  
-I wish I had more information and knowledge about many of the parameters in the data set. The data set referenced in the problem has a lot of detail about bank activities and standings. However, not being familiar with the banking industry means many of those parameters aren't meaningful to me personally. As a first pass and to create a reasonable scope for the project, I focused in a a few paremters from common sources such as the balance sheet and income statement. That way I was either more familiar with the parameters or I could easily look up their meaning.  
+I wish I had more information and knowledge about many of the parameters in the data set. The data set referenced in the problem has a lot of detail about bank activities and standings. However, not being familiar with the banking industry means many of those parameters aren't meaningful to me personally. As a first pass and to create a reasonable scope for the project, I focused in on a few paremters from common sources such as the balance sheet and income statement. That way I was either more familiar with the parameters or I could easily look up their meaning.  
 </span>
 
 2. Now do it. Build a model that classifies banks. Explain the steps you took and the decisions you
@@ -45,7 +45,7 @@ I first started by importing and cleaning up the data set. It was important to g
         self.field_dict = None
     ```
     <span style="color:orange">
-    Aside from the unique bank identifiers, I wanted to make sure the parameters used to compare banks was flexible within the program. That way if I discovered better paremeters after interacting with the data for a longer period of time, I could quickly include them in the analysis. Therefore, I included a dictionary of fields in the data model so new fields could easily be added. The call data field dict variable within the model determines which fields should be used in the bank comparison.  
+    Aside from the unique bank identifiers, I wanted to make sure the parameters used to compare banks were flexible within the program. That way if I discovered better paremeters after interacting with the data for a longer period of time, I could quickly include them in the analysis. Therefore, I included a dictionary of fields in the data model so new fields could easily be added. The call data field dict variable within the model determines which fields should be used in the bank comparison.  
     </span>   
     
     ```
@@ -56,7 +56,7 @@ I first started by importing and cleaning up the data set. It was important to g
     }
     ```
     <span style="color:orange">
-    Next, I needed to figure out how I was going to analyze the various parameters for each bank to determine if one was like another. An idea that popped into my mind early on was to create a probability density function for each parameter across all the banks. I could then determine a which percentile a specific parameter fell in for a specified bank. From there, I could compare the same parameter for all the other banks to understand whether the parameter's value was around the same location in the distribution as the specified bank. I could then repeat that process for however many parameters I wanted to compare. Finally, I could determine which banks had all their parameter values similar to the specified bank. 
+    Next, I needed to figure out how I was going to analyze the various parameters for each bank to determine if one was like another. An idea that popped into my mind early on was to create a probability density function for each parameter across all the banks. I could then determine a in which percentile a specific parameter fell for a specified bank. From there, I could compare the same parameter for all the other banks to understand whether the parameter's value was around the same location in the distribution as the specified bank. I could then repeat that process for however many parameters I wanted to compare. Finally, I could determine which banks had all their parameter values similar to the specified bank. 
     </span>
 
     &nbsp;
@@ -90,7 +90,7 @@ First, I would take more time to understand a larger number of the parameters in
 6. Tell us what you think of this homework assignment. What would you do differently, if you were
 designing it?  
 <span style="color:orange">
-I felt the assignment was meaningful and interesting. At first it was overwhelming to be working with such a vast data set I knew little about. However, that is a realistic scenario for a lot of data analysis work. It also forced me to scope my work so that I could both produce something meaningful, while meeting a relatively short timeline. 
+I felt the assignment was meaningful and interesting. At first it was overwhelming to be working with such a vast data set I knew little about. However, that is a realistic scenario for a lot of data analysis work. It also forced me to scope my work so that I could both produce something meaningful, while meeting a relatively short timeline.  
 &nbsp;  
 If I were designing the problem, I might provide a dataset that would be easier to interact with. On one hand, data ingestion is part of the problem and is a necessary skill. On the other hand, I spent a lot of time working the data into a model that I could easliy use to run an analysis. That said, I'm sure there are better libraries and simpler ways to accomplish the data ingestion and cleanup task. 
 </span>
