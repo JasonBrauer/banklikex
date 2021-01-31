@@ -1,7 +1,12 @@
 # Banklikex
+Goal: Determine which banks are like others in FFIEC government [Dataset](#Dataset)
+
 ## Architecture
 Any diagrams associated with the program  
 - Drawio diagram can be loaded with vs code plugin or at [draw.io](https://app.diagrams.net/)
+
+## Docs
+Any documentation associated with banklikex
 
 ## Entities
 Holds data models used to store original and manipulated data
@@ -9,6 +14,9 @@ Holds data models used to store original and manipulated data
 
 ## Example_Data
 Contains a small dataset that can be used to run the program without dowloading from [Dataset](#Dataset)
+
+## Images
+Images used in docs and application
 
 ## Repo
 Responsible for importing data from external sources
