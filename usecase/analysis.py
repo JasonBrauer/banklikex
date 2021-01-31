@@ -172,24 +172,27 @@ def create_distribution(data_dict_list, field):
 
         Parameters
         ----------
-        period_agg_object_list: list
-            list of call data aggregate objects with fields averaged across all periods in dataset
+        data_dict_list: list
+            each key in dict is a field and each value is list of values from all input agg objects
         field: string
             field that will have a distribution created
 
         Returns
         -------
-        average_call_data: AggregateCallData
-            aggregate call data object with field values of all periods in provided list averaged
+        ecdf: ECDF object
+            statsmodels ECDF object
 
         Raises
         ------
     """
-    pass
+    ecdf = ECDF(data_dict_list[field])
+
+    return ecdf
 
 def create_data_dict_list(period_agg_object_list):
     """
-    Calculates the distribution from the aggregate objects for the specified field
+    Creates a dictionary where each key is a field from the provided aggregate objects and values
+    are a list of all provided aggregate object's values for the respective field
 
         Parameters
         ----------
@@ -205,7 +208,7 @@ def create_data_dict_list(period_agg_object_list):
         ------
     """
     data_dict_list = {}
-    for obj in period_agg_obj_list:
+    for obj in period_agg_object_list:
         for field in obj.field_dict:
             if field not in data_dict_list:
                 data_dict_list[field] = [obj.field_dict[field]]
