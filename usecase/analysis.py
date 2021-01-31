@@ -28,7 +28,7 @@ def find_all_periods(call_data_object_list, idrssd):
         search for matching idrssd in each list
     '''
     for period in period_call_data_object_dict:
-        obj_match = _call_data_idrssd_match(idrssd, period_call_data_object_dict[period])
+        obj_match = call_data_idrssd_match(idrssd, period_call_data_object_dict[period])
         if obj_match is not None:
             grouped_cdo_idrssd.append(obj_match)
 
@@ -61,7 +61,7 @@ def _split_by_period(call_data_object_list):
 
     return period_call_data_object_dict
 
-def _call_data_idrssd_match(idrssd, call_data_object_list):
+def call_data_idrssd_match(idrssd, call_data_object_list):
     """
     Finds the call data object with idrssd that matches the current row idrssd.
     Idrssd objects must be in ascending order and not have duplicate objects for idrssd
@@ -250,7 +250,7 @@ def find_similar_bank_field(input_bank_idrssd, period_agg_object_list, ecdf_obj,
         ------
     """
     percentile_window = 0.1
-    input_bank_obj = _call_data_idrssd_match(input_bank_idrssd, period_agg_object_list)
+    input_bank_obj = call_data_idrssd_match(input_bank_idrssd, period_agg_object_list)
 
     input_bank_percentile = ecdf_obj(input_bank_obj.field_dict[field])
 
