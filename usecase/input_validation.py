@@ -47,3 +47,25 @@ def validate_directory(directory):
     assert os.path.isdir(directory), "not a valid or available directory"
 
     return directory
+
+def validate_idrssd(idrssd):
+    """
+    Validates idrssd bank identifier
+        Parameters
+        ----------
+        idrssd: int
+            unique bank identifier
+
+        Returns
+        -------
+        idrssd: int
+            validated idrssd
+
+        Raises
+        ------
+        AssertionError: AssertionError
+            if provided idrssd is not valid
+    """
+    assert type(idrssd) == int, "idrssd must be of type int"
+
+    return idrssd
