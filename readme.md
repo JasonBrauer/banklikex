@@ -8,6 +8,7 @@ Any diagrams associated with the program
 ## Docs
 Any documentation associated with banklikex
 - Assignment_Questions: Details of the assignment and answers to questions included with the bank like x assignment
+- code_docs: contains sphinx built html documentation of code built from docstrings (setup not complete)
 
 ## Entities
 Holds data models used to store original and manipulated data
