@@ -1,4 +1,5 @@
 import argparse
+from matplotlib import pyplot
 
 from usecase.interface import (load_call_data, find_similar_banks, idrssd_to_bank_name, 
 load_overall_distributions)
@@ -48,25 +49,17 @@ if args.plot_distributions:
         validate_call_data_object_list(call_data_object_list)
     )
           
-    ct = 0
     for field in data_dict_list:
-        # pyplot.figure(ct)
-        # pyplot.title(field)
         fig, ax1 = pyplot.subplots()
-        fig(ct)
-        fig.title(field)
+        ax1.title.set_text(field)
         ax2 = ax1.twinx()
 
         ax1.hist(data_dict_list[field], bins=100, color='g')
         ax2.plot(ecdf_obj_dict[field].x, ecdf_obj_dict[field].y, 'b')
 
-        ax1.set_xlabel(field + ' Values')
+        ax1.set_xlabel(field)
         ax1.set_ylabel('Count', color='g')
         ax2.set_ylabel('Percentile', color='b')
-
-        pyplot.figure(ct)
-        pyplot.title(field)
-        pyplot.hist(data_dict_list[field], bins=100)
 
     pyplot.show()
 
