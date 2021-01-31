@@ -21,4 +21,62 @@ I would start by getting familiar with the data set. Understanding the dataset p
 I wish I had more information and knowledge about many of the parameters in the data set. The data set referenced in the problem has a lot of detail about bank activities and standings. However, not being familiar with the banking industry means many of those parameters aren't meaningful to me personally. As a first pass and to create a reasonable scope for the project, I focused in a a few paremters from common sources such as the balance sheet and income statement. That way I was either more familiar with the parameters or I could easily look up their meaning.  
 </span>
 
-2. 
+2. Now do it. Build a model that classifies banks. Explain the steps you took and the decisions you
+made along the way, as if you were leaving notes for the next person who might tackle this problem.  
+<span style="color:orange">
+I first started by importing and cleaning up the data set. It was important to get the data set into a model that I could quickly use regardless of how I was going to analyze it. First I focused on making sure to include any useful bank identifiers in the model. That is why I included unique identifers such is idrssd as well as the bank name and address. 
+</span> 
+
+    ```
+    class CallData():
+    """
+    Structure to hold data from FFEIC call data summaries
+    """
+
+    def __init__(self):
+        self.period = None
+        self.idrssd = None
+        self.fdic = None
+        self.bank_name = None
+        self.address = None
+        self.city = None
+        self.state = None
+        self.zip_code = None
+        self.field_dict = None
+    ```
+    <span style="color:orange">
+    Aside from the unique bank identifiers, I wanted to make sure the parameters used to compare banks was flexible within the program. That way if I discovered better paremeters after interacting with the data for a longer period of time, I could quickly include them in the analysis. Therefore, I included a dictionary of fields in the data model so new fields could easily be added. The call data field dict variable within the model determines which fields should be used in the bank comparison.  
+    </span>   
+    
+    ```
+    call_data_field_dict = {
+    "RCON2170" : "TOTAL ASSETS",
+    "RCON2948" : "TOTAL LIABILITIES",
+    "RIAD4010" : "INTEREST AND FEES ON LOANS"
+    }
+    ```
+    <span style="color:orange">
+    Next, I needed to figure out how I was going to analyze the various parameters for each bank to determine if one was like another. An idea that popped into my mind early on was to create a probability density function for each parameter across all the banks. I could then determine a which percentile a specific parameter fell in for a specified bank. From there, I could compare the same parameter for all the other banks to understand whether the parameter's value was around the same location in the distribution as the specified bank. I could then repeat that process for however many parameters I wanted to compare. Finally, I could determine which banks had all their parameter values similar to the specified bank. 
+    </span>
+
+    &nbsp;
+    
+    INSERT PROB DIST IMAGE HERE
+
+    <span style="color:orange">
+    Unfortunately, with so many different parameters and the desire to be flexible in which parameters were used, I couldn't be tied to any few probability distribution shapes. I would also have to implement complicated logic to figure out which shape applied to a certain parameter. Being time consuming both for implementation computation, I started searching for another method. After a bit of searching I found that a cumulative distribution function (cdf) could also easily provide a percentile associated with a certain parameter value. There was also the option to build an empirically defined cdf. Therefore, needing to understand the shape of a distribution was no longer as critical and the logic could be significantly simplified. 
+    </span>
+    
+    &nbsp;
+    
+    INSERT CUML DIST IMAGE HERE
+
+3. Now that you’re done, suppose a co-worker is eager to use your results & ideas in our business,
+starting immediately. What would you advise and why?  
+<span style="color:orange">
+I would advise against using the results in the business immediately. First, the system built to perform the analysis wasn't built with production intent. Unit and integration tests need to be added to validate functions and the program as a whole. Second, the results ideally would be validated by another expert and against a different dataset to sure they are not biased or skewed in any way. 
+</span>
+
+4. 
+
+    
