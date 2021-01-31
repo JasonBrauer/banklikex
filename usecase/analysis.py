@@ -216,3 +216,29 @@ def create_data_dict_list(period_agg_object_list):
                 data_dict_list[field].append(obj.field_dict[field])
     
     return data_dict_list
+
+def find_similar_bank_field(input_bank_idrssd, period_agg_object_list, ecdf_obj, field):
+    """
+    Flips the intersection dict value for each item in provided agg obj list to true for specified 
+    field if field value within +- 10 percentile of the input bank field value
+
+        Parameters
+        ----------
+        input_bank_idrssd: int
+            idrssd of bank specified for finding similar banks
+        period_agg_object_list: list
+            list of call data aggregate objects with fields averaged across all periods in dataset
+        ecdf_obj: ECDF object
+            statsmodels ECDF object build from agg data of input field
+        field: str
+            field that will be used for interection comparison
+
+        Returns
+        -------
+        period_agg_object_list: list
+            list of call data aggregate objects with intersection field modified
+
+        Raises
+        ------
+    """
+    pass
