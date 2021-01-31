@@ -77,6 +77,14 @@ starting immediately. What would you advise and why?
 I would advise against using the results in the business immediately. First, the system built to perform the analysis wasn't built with production intent. Unit and integration tests need to be added to validate functions and the program as a whole. Second, the results ideally would be validated by another expert and against a different dataset to sure they are not biased or skewed in any way. 
 </span>
 
-4. 
+4. When should your solution NOT be used?  
+<span style="color:orange">
+The solution should not be used before its written with production intent and validated.
+</span>
+
+5. If you had more time and resources, what would you do next, to improve or refine your work?  
+<span style="color:orange">
+First, I would take more time to understand a larger number of the parameters in the dataset. Ideally I would find an independent group that tend to not take the same distribution shape. Therefore, each parameter would represent a distinct aspect of the bank and be relatively indepenent of other bank characteristics. Second, I would research a wider variety of methods to solve the bank like x problem. Given the short timeline to complete this assignement, I found it more useful to produce something with reasonable results than diving deep into finding the ideal solution to the problem.  
+</span>
 
     
