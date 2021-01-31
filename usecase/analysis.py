@@ -63,7 +63,8 @@ def _split_by_period(call_data_object_list):
 
 def _call_data_idrssd_match(idrssd, call_data_object_list):
     """
-    Finds the call data object with idrssd that matches the current row idrssd
+    Finds the call data object with idrssd that matches the current row idrssd.
+    Idrssd objects must be in ascending order and not have duplicate objects for idrssd
 
         Parameters
         ----------
@@ -185,6 +186,13 @@ def create_distribution(data_dict_list, field):
         Raises
         ------
     """
+    '''
+        an empirical cdf was the most flexible, quick way to determine a percentile for each 
+        value across the distribution of the entire dataset. Because there were so many potential 
+        fields that could be utilized for bank comparison, flexibility was key. Without time to dig 
+        into the most relevant fields and their typical shapes, the solution needed to work even
+        when new, unanalyzed fields were thrown into the mix.
+    '''
     ecdf = ECDF(data_dict_list[field])
 
     return ecdf
@@ -241,4 +249,21 @@ def find_similar_bank_field(input_bank_idrssd, period_agg_object_list, ecdf_obj,
         Raises
         ------
     """
-    pass
+    percentile_window = 0.1
+    input_bank_obj = _call_data_idrssd_match(input_bank_idrssd, period_agg_object_list)
+
+    input_bank_percentile = ecdf_obj(input_bank_obj.field_dict[field])
+
+    for obj in period_agg_object_list:
+        if obj.idrssd != input_bank_idrssd:
+            comp_bank_percentile = ecdf_obj(obj.field_dict[field])
+            low_bound = input_bank_percentile - percentile_window
+            high_bound = input_bank_percentile + percentile_window
+            if low_bound < 0:
+                low_bound = 0.0
+            if high_bound > 1:
+                high_bound = 1.0
+            if comp_bank_percentile > low_bound and comp_bank_percentile < high_bound:
+                obj.intersection_list.append(field)
+
+    return period_agg_object_list
