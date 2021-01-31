@@ -61,15 +61,14 @@ I first started by importing and cleaning up the data set. It was important to g
 
     &nbsp;
     
-    INSERT PROB DIST IMAGE HERE
+    ![PDF Image](../images/Normal_Distribution.png)
 
     <span style="color:orange">
     Unfortunately, with so many different parameters and the desire to be flexible in which parameters were used, I couldn't be tied to any few probability distribution shapes. I would also have to implement complicated logic to figure out which shape applied to a certain parameter. Being time consuming both for implementation computation, I started searching for another method. After a bit of searching I found that a cumulative distribution function (cdf) could also easily provide a percentile associated with a certain parameter value. There was also the option to build an empirically defined cdf. Therefore, needing to understand the shape of a distribution was no longer as critical and the logic could be significantly simplified. 
     </span>
-    
+
     &nbsp;
-    
-    INSERT CUML DIST IMAGE HERE
+    ![ECDF Image](../images/Empirical_Cumulative_Distribution.png)
 
 3. Now that you’re done, suppose a co-worker is eager to use your results & ideas in our business,
 starting immediately. What would you advise and why?  
