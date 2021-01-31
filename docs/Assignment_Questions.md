@@ -87,4 +87,12 @@ The solution should not be used before its written with production intent and va
 First, I would take more time to understand a larger number of the parameters in the dataset. Ideally I would find an independent group that tend to not take the same distribution shape. Therefore, each parameter would represent a distinct aspect of the bank and be relatively indepenent of other bank characteristics. Second, I would research a wider variety of methods to solve the bank like x problem. Given the short timeline to complete this assignement, I found it more useful to produce something with reasonable results than diving deep into finding the ideal solution to the problem.  
 </span>
 
+6. Tell us what you think of this homework assignment. What would you do differently, if you were
+designing it?  
+<span style="color:orange">
+I felt the assignment was meaningful and interesting. At first it was overwhelming to be working with such a vast data set I knew little about. However, that is a realistic scenario for a lot of data analysis work. It also forced me to scope my work so that I could both produce something meaningful, while meeting a relatively short timeline. 
+&nbsp;  
+If I were designing the problem, I might provide a dataset that would be easier to interact with. On one hand, data ingestion is part of the problem and is a necessary skill. On the other hand, I spent a lot of time working the data into a model that I could easliy use to run an analysis. That said, I'm sure there are better libraries and simpler ways to accomplish the data ingestion and cleanup task. 
+</span>
+
     
