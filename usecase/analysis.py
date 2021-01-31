@@ -1,6 +1,6 @@
 from statsmodels.distributions.empirical_distribution import ECDF
 
-from entities.data_models import AggregateCallData
+from entities.data_models import AggregateCallData, call_data_field_dict
 
 def find_all_periods(call_data_object_list, idrssd):
     """
@@ -244,7 +244,7 @@ def find_similar_bank_field(input_bank_idrssd, period_agg_object_list, ecdf_obj,
         Returns
         -------
         period_agg_object_list: list
-            list of call data aggregate objects with intersection field modified
+            list of call data aggregate objects with intersection list modified
 
         Raises
         ------
@@ -270,3 +270,29 @@ def find_similar_bank_field(input_bank_idrssd, period_agg_object_list, ecdf_obj,
                 obj.intersection_list.append(field)
 
     return period_agg_object_list
+
+def find_similar_bank_intersection(period_agg_object_list):
+    """
+    Creates a list of agg objects where every item in model.call_data_field_dict is in the object's
+    intersection list
+
+        Parameters
+        ----------
+        period_agg_object_list: list
+            list of call data aggregate objects with intersection list filled
+
+        Returns
+        -------
+        matching_agg_obj_list: list
+            list of agg objects where every item in model.call_data_field_dict is in the object's
+            intersection list
+
+        Raises
+        ------
+    """
+    matching_agg_obj_list = []
+    for obj in period_agg_object_list:
+        if all(elem in obj.intersection_list for elem in call_data_field_dict.values()):
+            matching_agg_obj_list.append(obj)
+
+    return matching_agg_obj_list
