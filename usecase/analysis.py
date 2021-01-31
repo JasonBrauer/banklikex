@@ -255,7 +255,10 @@ def find_similar_bank_field(input_bank_idrssd, period_agg_object_list, ecdf_obj,
     input_bank_percentile = ecdf_obj(input_bank_obj.field_dict[field])
 
     for obj in period_agg_object_list:
-        if obj.idrssd != input_bank_idrssd:
+        '''
+            field won't exist in object if value was blank in dataset
+        '''
+        if obj.idrssd != input_bank_idrssd and field in obj.field_dict.keys():
             comp_bank_percentile = ecdf_obj(obj.field_dict[field])
             low_bound = input_bank_percentile - percentile_window
             high_bound = input_bank_percentile + percentile_window
