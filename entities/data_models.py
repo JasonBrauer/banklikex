@@ -161,12 +161,12 @@ class AggregateCallData():
             raise TypeError("field_dict type must be dict or None")
 
     @property
-    def intersection_dict(self):
-        return self.__intersection_dict
-    @intersection_dict.setter
-    def intersection_dict(self, intersection_dict):
-        if type(intersection_dict) == list or intersection_dict == None: 
-            self.__intersection_dict = intersection_dict
+    def intersection_list(self):
+        return self.__intersection_list
+    @intersection_list.setter
+    def intersection_list(self, intersection_list):
+        if type(intersection_list) == list or intersection_list == None: 
+            self.__intersection_list = intersection_list
         else:
             raise TypeError("intersection_list type must be list or None")
 
