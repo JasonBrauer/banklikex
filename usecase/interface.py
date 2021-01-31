@@ -113,6 +113,45 @@ def idrssd_to_bank_name(valid_idrssd, valid_call_data_object_list):
     matched_call_data_obj = call_data_idrssd_match(valid_idrssd, valid_call_data_object_list)
     
     return matched_call_data_obj.bank_name
+
+def load_overall_distributions(valid_call_data_object_list):
+    """
+        Loads cumulative distributions and histograms of bank field data used for bank comparisons.
+        Bank field data is averaged across all unique periods in the dataset for each bank
+
+        Parameters
+        ----------
+        valid_call_data_object_list: list
+            validated list of call data objects
+
+        Returns
+        -------
+        data_dict_list: dict
+            keys are fields and values are lists of aggregate call data objects
+        ecdf_obj_dict: dict
+            keys are fields and values are ecdf objects for each field
+
+        Raises
+        ------
+    """
+    unique_idrssd_list = find_distinct_idrssd(call_data_object_list)
+
+    period_agg_obj_list = []
+    for idrssd in unique_idrssd_list:
+        grouped_by_idrssd = find_all_periods(call_data_object_list, idrssd)
+        average_call_data = average_all_periods(grouped_by_idrssd)
+        period_agg_obj_list.append(average_call_data)
+
+    data_dict_list = create_data_dict_list(period_agg_obj_list)
+
+    ecdf_obj_dict = {}
+    for field in data_dict_list:
+        ecdf_obj_dict[field] = create_distribution(data_dict_list, field)
+
+    return data_dict_list, ecdf_obj_dict
+
+
+    
     
 
 
