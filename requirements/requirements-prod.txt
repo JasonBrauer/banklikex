@@ -1,2 +1,2 @@
-matplotlib
-statsmodels
+matplotlib==3.3.4
+statsmodels==0.12.1
