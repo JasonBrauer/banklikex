@@ -125,7 +125,7 @@ class AggregateCallData():
         self.aggregation = None
         self.idrssd = None
         self.field_dict = None
-        self.intersection_dict = None
+        self.intersection_list = None
 
     @property
     def aggregation(self):
@@ -165,10 +165,10 @@ class AggregateCallData():
         return self.__intersection_dict
     @intersection_dict.setter
     def intersection_dict(self, intersection_dict):
-        if type(intersection_dict) == dict or intersection_dict == None: 
+        if type(intersection_dict) == list or intersection_dict == None: 
             self.__intersection_dict = intersection_dict
         else:
-            raise TypeError("intersection_dict type must be dict or None")
+            raise TypeError("intersection_list type must be list or None")
 
 '''
     TODO - Add more categories to describe loan types / content
