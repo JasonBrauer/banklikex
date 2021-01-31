@@ -125,7 +125,7 @@ class AggregateCallData():
         self.aggregation = None
         self.idrssd = None
         self.field_dict = None
-        self.intersection_list = None
+        self.intersection_list = []
 
     @property
     def aggregation(self):
