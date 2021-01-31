@@ -134,11 +134,11 @@ def load_overall_distributions(valid_call_data_object_list):
         Raises
         ------
     """
-    unique_idrssd_list = find_distinct_idrssd(call_data_object_list)
+    unique_idrssd_list = find_distinct_idrssd(valid_call_data_object_list)
 
     period_agg_obj_list = []
     for idrssd in unique_idrssd_list:
-        grouped_by_idrssd = find_all_periods(call_data_object_list, idrssd)
+        grouped_by_idrssd = find_all_periods(valid_call_data_object_list, idrssd)
         average_call_data = average_all_periods(grouped_by_idrssd)
         period_agg_obj_list.append(average_call_data)
 
